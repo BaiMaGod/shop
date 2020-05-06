@@ -31,7 +31,7 @@ public class AdminOrderController {
         return orderService.list(form);
     }
 
-    @ApiOperation(value = "订单统计",notes = "订单统计")
+    @ApiOperation(value = "订单统计",notes = "订单统计",hidden = true)
     @GetMapping("/stat")
     public Result stat(@Valid OrderForm.statForm form){
 
