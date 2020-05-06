@@ -29,7 +29,6 @@ public class ScenicSpot {
     @ApiModelProperty(value = "图片url")
     private List<String> imgUrls = new ArrayList<>();
 
-
     public String getScenicSpotId() {
         return scenicSpotId;
     }

@@ -642,6 +642,7 @@ public class ScenicSpotExample {
         protected Criteria() {
             super();
         }
+
     }
 
     public static class Criterion {
