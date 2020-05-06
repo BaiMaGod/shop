@@ -4,11 +4,10 @@
   <resultMap id="BaseResultMap" type="com.model.order.Order" >
     <id column="orderId" property="orderId" jdbcType="VARCHAR" />
     <result column="userId" property="userId" jdbcType="INTEGER" />
-    <result column="scenicSpotInfo" property="scenicSpotInfo" jdbcType="VARCHAR" />
-    <result column="ticketNum" property="ticketNum" jdbcType="INTEGER" />
+    <result column="goodsId" property="goodsId" jdbcType="VARCHAR" />
+    <result column="goodsInfo" property="goodsInfo" jdbcType="VARCHAR" />
+    <result column="number" property="number" jdbcType="INTEGER" />
     <result column="money" property="money" jdbcType="DECIMAL" />
-    <result column="startTime" property="startTime" jdbcType="TIMESTAMP" />
-    <result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
     <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
     <result column="state" property="state" jdbcType="VARCHAR" />
   </resultMap>
@@ -71,8 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    orderId, userId, scenicSpotInfo, ticketNum, money, startTime, endTime, createTime, 
-    state
+    orderId, userId, goodsId, goodsInfo, number, money, createTime, state
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.model.order.OrderExample" >
     select
@@ -106,14 +104,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.model.order.Order" >
-    insert into orders (orderId, userId, scenicSpotInfo, 
-      ticketNum, money, startTime, 
-      endTime, createTime, state
-      )
-    values (#{orderId,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{scenicSpotInfo,jdbcType=VARCHAR}, 
-      #{ticketNum,jdbcType=INTEGER}, #{money,jdbcType=DECIMAL}, #{startTime,jdbcType=TIMESTAMP}, 
-      #{endTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{state,jdbcType=VARCHAR}
-      )
+    insert into orders (orderId, userId, goodsId, 
+      goodsInfo, number, money, 
+      createTime, state)
+    values (#{orderId,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{goodsId,jdbcType=VARCHAR}, 
+      #{goodsInfo,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, #{money,jdbcType=DECIMAL}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{state,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.model.order.Order" >
     insert into orders
@@ -124,20 +120,17 @@
       <if test="userId != null" >
         userId,
       </if>
-      <if test="scenicSpotInfo != null" >
-        scenicSpotInfo,
+      <if test="goodsId != null" >
+        goodsId,
       </if>
-      <if test="ticketNum != null" >
-        ticketNum,
+      <if test="goodsInfo != null" >
+        goodsInfo,
+      </if>
+      <if test="number != null" >
+        number,
       </if>
       <if test="money != null" >
         money,
-      </if>
-      <if test="startTime != null" >
-        startTime,
-      </if>
-      <if test="endTime != null" >
-        endTime,
       </if>
       <if test="createTime != null" >
         createTime,
@@ -153,20 +146,17 @@
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="scenicSpotInfo != null" >
-        #{scenicSpotInfo,jdbcType=VARCHAR},
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=VARCHAR},
       </if>
-      <if test="ticketNum != null" >
-        #{ticketNum,jdbcType=INTEGER},
+      <if test="goodsInfo != null" >
+        #{goodsInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=INTEGER},
       </if>
       <if test="money != null" >
         #{money,jdbcType=DECIMAL},
-      </if>
-      <if test="startTime != null" >
-        #{startTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endTime != null" >
-        #{endTime,jdbcType=TIMESTAMP},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
@@ -191,20 +181,17 @@
       <if test="record.userId != null" >
         userId = #{record.userId,jdbcType=INTEGER},
       </if>
-      <if test="record.scenicSpotInfo != null" >
-        scenicSpotInfo = #{record.scenicSpotInfo,jdbcType=VARCHAR},
+      <if test="record.goodsId != null" >
+        goodsId = #{record.goodsId,jdbcType=VARCHAR},
       </if>
-      <if test="record.ticketNum != null" >
-        ticketNum = #{record.ticketNum,jdbcType=INTEGER},
+      <if test="record.goodsInfo != null" >
+        goodsInfo = #{record.goodsInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.number != null" >
+        number = #{record.number,jdbcType=INTEGER},
       </if>
       <if test="record.money != null" >
         money = #{record.money,jdbcType=DECIMAL},
-      </if>
-      <if test="record.startTime != null" >
-        startTime = #{record.startTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.endTime != null" >
-        endTime = #{record.endTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.createTime != null" >
         createTime = #{record.createTime,jdbcType=TIMESTAMP},
@@ -221,11 +208,10 @@
     update orders
     set orderId = #{record.orderId,jdbcType=VARCHAR},
       userId = #{record.userId,jdbcType=INTEGER},
-      scenicSpotInfo = #{record.scenicSpotInfo,jdbcType=VARCHAR},
-      ticketNum = #{record.ticketNum,jdbcType=INTEGER},
+      goodsId = #{record.goodsId,jdbcType=VARCHAR},
+      goodsInfo = #{record.goodsInfo,jdbcType=VARCHAR},
+      number = #{record.number,jdbcType=INTEGER},
       money = #{record.money,jdbcType=DECIMAL},
-      startTime = #{record.startTime,jdbcType=TIMESTAMP},
-      endTime = #{record.endTime,jdbcType=TIMESTAMP},
       createTime = #{record.createTime,jdbcType=TIMESTAMP},
       state = #{record.state,jdbcType=VARCHAR}
     <if test="_parameter != null" >
@@ -238,20 +224,17 @@
       <if test="userId != null" >
         userId = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="scenicSpotInfo != null" >
-        scenicSpotInfo = #{scenicSpotInfo,jdbcType=VARCHAR},
+      <if test="goodsId != null" >
+        goodsId = #{goodsId,jdbcType=VARCHAR},
       </if>
-      <if test="ticketNum != null" >
-        ticketNum = #{ticketNum,jdbcType=INTEGER},
+      <if test="goodsInfo != null" >
+        goodsInfo = #{goodsInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null" >
+        number = #{number,jdbcType=INTEGER},
       </if>
       <if test="money != null" >
         money = #{money,jdbcType=DECIMAL},
-      </if>
-      <if test="startTime != null" >
-        startTime = #{startTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endTime != null" >
-        endTime = #{endTime,jdbcType=TIMESTAMP},
       </if>
       <if test="createTime != null" >
         createTime = #{createTime,jdbcType=TIMESTAMP},
@@ -265,11 +248,10 @@
   <update id="updateByPrimaryKey" parameterType="com.model.order.Order" >
     update orders
     set userId = #{userId,jdbcType=INTEGER},
-      scenicSpotInfo = #{scenicSpotInfo,jdbcType=VARCHAR},
-      ticketNum = #{ticketNum,jdbcType=INTEGER},
+      goodsId = #{goodsId,jdbcType=VARCHAR},
+      goodsInfo = #{goodsInfo,jdbcType=VARCHAR},
+      number = #{number,jdbcType=INTEGER},
       money = #{money,jdbcType=DECIMAL},
-      startTime = #{startTime,jdbcType=TIMESTAMP},
-      endTime = #{endTime,jdbcType=TIMESTAMP},
       createTime = #{createTime,jdbcType=TIMESTAMP},
       state = #{state,jdbcType=VARCHAR}
     where orderId = #{orderId,jdbcType=VARCHAR}

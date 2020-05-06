@@ -14,6 +14,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mapper.order.OrderMapper;
 import com.mapper.order.OrderStatMapper;
+import com.mapper.product.GoodsImgMapper;
+import com.mapper.product.GoodsMapper;
 import com.mapper.product.ScenicSpotImgMapper;
 import com.mapper.product.ScenicSpotMapper;
 import com.model.order.Order;
@@ -52,6 +54,10 @@ public class OrderServiceImpl implements OrderService{
     @Resource
     OrderStatMapper orderStatMapper;
 
+    @Resource
+    GoodsMapper goodsMapper;
+    @Resource
+    GoodsImgMapper goodsImgMapper;
 
     /**
      * 根据id查询 订单 详情信息
@@ -63,8 +69,8 @@ public class OrderServiceImpl implements OrderService{
 
         Order order = orderMapper.selectByPrimaryKey(form.getId());
         if(order!=null){
-            // 转换景点信息
-            order.setScenicSpot(JSONObject.parseObject(order.getScenicSpotInfo(), ScenicSpot.class));
+            // 转换商品信息
+            order.setGoods(JSONObject.parseObject(order.getGoodsInfo(), Goods.class));
         }
 
         return Result.success(order);
@@ -81,8 +87,8 @@ public class OrderServiceImpl implements OrderService{
         OrderExample.Criteria criteria = example.createCriteria();
 
         // 筛选条件
-		if(!StringUtils.isEmpty( form.getScenicSpotInfo() )){
-			criteria.andScenicSpotInfoLike("%"+form.getScenicSpotInfo()+"%");
+		if(!StringUtils.isEmpty( form.getGoodsInfo() )){
+			criteria.andGoodsInfoLike("%"+form.getGoodsInfo()+"%");
 		}
         if(form.getUserId()!=null){
             criteria.andUserIdEqualTo(form.getUserId());
@@ -102,9 +108,9 @@ public class OrderServiceImpl implements OrderService{
         PageInfo<Order> pageInfo = new PageInfo<>(orderList);
         Page page = form.pageHelperResult(pageInfo);
 
-        // 转换景点信息
+        // 转换商品信息
         for (Order order : orderList) {
-            order.setScenicSpot(JSONObject.parseObject(order.getScenicSpotInfo(), ScenicSpot.class));
+            order.setGoods(JSONObject.parseObject(order.getGoodsInfo(), Goods.class));
         }
 
         return Result.success(orderList,page);
@@ -119,18 +125,22 @@ public class OrderServiceImpl implements OrderService{
     public Result add(OrderForm.addForm form,HttpServletResponse httpResponse) throws IOException {
         Order order = new Order();
 
-        //首先查出景点信息
-        ScenicSpot scenicSpot = scenicSpotMapper.selectByPrimaryKey(form.getScenicSpotId());
-        if(scenicSpot==null){
-            return Result.fail(ResultStatus.ERROR_Add.getCode(),"景点不存在");
+        //首先查出商品信息
+        Goods goods = goodsMapper.selectByPrimaryKey(form.getGoodsId());
+        if(goods==null){
+            return Result.fail(ResultStatus.ERROR_Add.getCode(),"商品不存在");
         }
 
         //查询图片
-        ScenicSpotImgExample imgExample = new ScenicSpotImgExample();
-        imgExample.createCriteria().andScenicSpotIdEqualTo(scenicSpot.getScenicSpotId());
-        List<ScenicSpotImg> scenicSpotImgs = scenicSpotImgMapper.selectByExample(imgExample);
-        scenicSpot.setImgUrls( convertImg(scenicSpotImgs) );
+        GoodsImgExample imgExample = new GoodsImgExample();
+        imgExample.createCriteria().andGoodsIdEqualTo(goods.getGoodsId());
+        List<GoodsImg> goodsImgs = goodsImgMapper.selectByExample(imgExample);
+        goods.setImgUrls( convertImg(goodsImgs) );
 
+        //库存控制,如果库存数量小于 购买数量,则不能下单，返回错误提示
+        if (goods.getStock() == null || goods.getStock() < form.getNumber()){
+            return Result.fail(ResultStatus.ERROR_Add.getCode(),"库存不足");
+        }
 
         //入参转实体对象
         BeanUtils.copyProperties(form,order);
@@ -139,16 +149,12 @@ public class OrderServiceImpl implements OrderService{
         order.setOrderId(CommonUtil.getLongId());
         order.setCreateTime(new Date());
         order.setUserId(UserUtil.getUserInfo().getUserId());
-        order.setScenicSpot(scenicSpot);
-        order.setScenicSpotInfo(JSONObject.toJSONString(scenicSpot));
+        order.setGoods(goods);
+        order.setGoodsInfo(JSONObject.toJSONString(goods));
         order.setState("待付款");
 
-        //设置有效期，默认一个月之内有效
-        order.setStartTime(new Date());
-        order.setEndTime(DateUtil.offsetMonth(new Date(),1));
-
         //计算总金额：票价*数量
-        BigDecimal money = scenicSpot.getTicketPrice().multiply(NumberUtil.toBigDecimal(form.getTicketNum() + ""));
+        BigDecimal money = goods.getPrice().multiply(NumberUtil.toBigDecimal(form.getNumber() + ""));
         order.setMoney(money);
 
         //使用支付宝支付
@@ -161,15 +167,15 @@ public class OrderServiceImpl implements OrderService{
     }
 
     /**
-     * 提取景点url
-     * @param scenicSpotImgs
+     * 提取商品url
+     * @param goodsImgs
      * @return
      */
-    public List<String> convertImg(List<ScenicSpotImg> scenicSpotImgs){
+    public List<String> convertImg(List<GoodsImg> goodsImgs){
         List<String> result = new ArrayList<>();
 
-        for (ScenicSpotImg scenicSpotImg : scenicSpotImgs) {
-            result.add(scenicSpotImg.getImgUrl());
+        for (GoodsImg goodsImg : goodsImgs) {
+            result.add(goodsImg.getImgUrl());
         }
 
         return result;
@@ -227,9 +233,9 @@ public class OrderServiceImpl implements OrderService{
         //付款金额，必填
         String total_amount = order.getMoney().toString();
         //订单名称，必填
-        String subject = order.getScenicSpot().getName();
+        String subject = order.getGoods().getGoodsName();
         //商品描述，可空
-        String body = order.getScenicSpot().getIntroduction();
+        String body = order.getGoods().getIntroduction();
         request.setBizContent("{\"out_trade_no\":\""+ out_trade_no +"\","
                 + "\"total_amount\":\""+ total_amount +"\","
                 + "\"subject\":\""+ subject +"\","

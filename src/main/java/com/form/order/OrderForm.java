@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 public class OrderForm {
@@ -19,8 +20,8 @@ public class OrderForm {
 
     @Data
     public static class listForm extends PageForm{
-		@ApiModelProperty(value = "景点信息,模糊匹配")
-		private String scenicSpotInfo;
+		@ApiModelProperty(value = "商品信息,模糊匹配")
+		private String goodsInfo;
 
 		@ApiModelProperty(value = "用户id,模糊匹配",hidden = true)
 		private Integer userId;
@@ -28,12 +29,13 @@ public class OrderForm {
 
     @Data
     public static class addForm {
-		@ApiModelProperty(value = "景点id",required = true)
-		@NotBlank(message = "景点id 不能为空")
-		private String scenicSpotId;
-		@ApiModelProperty(value = "票数",required = true)
-		@NotNull(message = "票数 不能为空")
-		private Integer ticketNum;
+		@ApiModelProperty(value = "商品id",required = true)
+		@NotBlank(message = "商品id 不能为空")
+		private String goodsId;
+		@ApiModelProperty(value = "购买数量",required = true)
+		@NotNull(message = "购买数量 必选大于0")
+		@Min(value = 0,message = "购买数量 必选大于0")
+		private Integer number;
 
 
     }

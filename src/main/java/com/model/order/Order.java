@@ -1,6 +1,6 @@
 package com.model.order;
 
-import com.model.product.ScenicSpot;
+import com.model.product.Goods;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -12,22 +12,19 @@ public class Order {
 
     private Integer userId;//用户Id
 
-    private String scenicSpotInfo;//景点信息
+    private String goodsId;//商品ID
 
-    private Integer ticketNum;//门票数量
+    private String goodsInfo;//商品信息
+
+    private Integer number;//购买数量
 
     private BigDecimal money;//订单金额，单位：元
-
-    private Date startTime;//门票有效开始时间
-
-    private Date endTime;//门票有效截止时间
 
     private Date createTime;//创建时间
 
     private String state;//订单状态
 
-
-    private ScenicSpot scenicSpot;
+    private Goods goods;//商品对象
 
     public String getOrderId() {
         return orderId;
@@ -45,20 +42,28 @@ public class Order {
         this.userId = userId;
     }
 
-    public String getScenicSpotInfo() {
-        return scenicSpotInfo;
+    public String getGoodsId() {
+        return goodsId;
     }
 
-    public void setScenicSpotInfo(String scenicSpotInfo) {
-        this.scenicSpotInfo = scenicSpotInfo == null ? null : scenicSpotInfo.trim();
+    public void setGoodsId(String goodsId) {
+        this.goodsId = goodsId == null ? null : goodsId.trim();
     }
 
-    public Integer getTicketNum() {
-        return ticketNum;
+    public String getGoodsInfo() {
+        return goodsInfo;
     }
 
-    public void setTicketNum(Integer ticketNum) {
-        this.ticketNum = ticketNum;
+    public void setGoodsInfo(String goodsInfo) {
+        this.goodsInfo = goodsInfo == null ? null : goodsInfo.trim();
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 
     public BigDecimal getMoney() {
@@ -67,22 +72,6 @@ public class Order {
 
     public void setMoney(BigDecimal money) {
         this.money = money;
-    }
-
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
     }
 
     public Date getCreateTime() {
