@@ -3,9 +3,9 @@ package com.mapper.order;
 import com.form.order.OrderForm;
 import com.vo.OrderStatVo;
 
-public interface OrderStatMapper {
+public interface OrderMapperExt {
 
 
-    OrderStatVo stat(OrderForm.statForm form);
+    void reduceStock(OrderForm.addForm form);
 
 }
