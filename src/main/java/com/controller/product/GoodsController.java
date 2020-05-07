@@ -40,6 +40,7 @@ public class GoodsController {
     @ApiOperation(value = "新品上架推荐",notes = "上架时间倒序前十的商品")
     @GetMapping
     public Result newProduct(){
+
         return goodsService.newProduct();
     }
 
