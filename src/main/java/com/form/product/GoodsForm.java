@@ -25,7 +25,8 @@ public class GoodsForm {
     public static class listForm extends PageForm{
 		@ApiModelProperty(value = "商品名称,模糊匹配")
 		private String goodsName;
-
+		@ApiModelProperty(value = "商品分类,精准查询")
+		private String classify;
 
     }
 
@@ -46,7 +47,9 @@ public class GoodsForm {
 		@ApiModelProperty(value = "说明信息",required = true)
 		@NotBlank(message = "说明信息 不能为空")
 		private String information;
-
+		@ApiModelProperty(value = "库存",required = true)
+		@NotNull(message = "库存 不能为空")
+		private Integer stock;
 		@ApiModelProperty(value = "图片url，多个用逗号隔开")
 		private List<String> imgUrls = new ArrayList<>();
 

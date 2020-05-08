@@ -67,10 +67,14 @@ public class GoodsServiceImpl implements GoodsService{
         GoodsExample.Criteria criteria = example.createCriteria();
 
         // 筛选条件
+        //1、商品名
 		if(!StringUtils.isEmpty( form.getGoodsName() )){
 			criteria.andGoodsNameLike("%"+form.getGoodsName()+"%");
 		}
-
+		//2、商品分类
+		if(!StringUtils.isEmpty(form.getClassify())){
+            criteria.andClassifyEqualTo(form.getClassify());
+        }
 
         // 排序
         if(!StringUtils.isEmpty(form.getOrderByClause())){
@@ -120,6 +124,11 @@ public class GoodsServiceImpl implements GoodsService{
     @Override
     @Transactional
     public Result add(GoodsForm.addForm form) {
+
+//        判断库存
+        if(form.getStock()<=0){
+            return Result.fail(ResultStatus.ERROR_Parameter_Stock);
+        }
         Goods goods = new Goods();
 
         //入参转实体对象

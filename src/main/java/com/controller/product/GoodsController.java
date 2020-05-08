@@ -30,7 +30,7 @@ public class GoodsController {
         return goodsService.findById(form);
     }
 
-    @ApiOperation(value = "查询景点列表",notes = "查询满足条件的 景点 列表")
+    @ApiOperation(value = "查询景点列表",notes = "查询满足条件的 景点 列表（商品名模糊查询 商品分类精准查询）")
     @GetMapping("/list")
     public Result list(@Valid GoodsForm.listForm form){
 

@@ -28,7 +28,8 @@ public enum ResultStatus {
     ERROR_Register_Number_Exist(13,"注册失败，账号已存在"),
     ERROR_Login_Number_No_Exist(23,"登录失败，账号不存在"),
     ERROR_V_Code(41,"验证码错误"),
-    ERROR_V_Code_OutTime(42,"验证码超时失效,请重发");
+    ERROR_V_Code_OutTime(42,"验证码超时失效,请重发"),
+    ERROR_Parameter_Stock(2,"参数错误，库存值必须大于0");
 
 
     private int code;
