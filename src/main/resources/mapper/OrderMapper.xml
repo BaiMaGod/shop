@@ -245,6 +245,29 @@
     </set>
     where orderId = #{orderId,jdbcType=VARCHAR}
   </update>
+
+  <select id="selectGoodsIdsByCountTop" resultType="java.lang.String">
+      select goodsId
+      from (
+        select goodsId,sum(money) as 'total'
+        from orders
+        where state='交易成功'
+        group by goodsId
+      ) t
+      order by total desc
+      limit 3
+    </select>
+
+  <select id="selectByCount" resultType="java.lang.String">
+    select goodsId
+    from
+    (select goodsId,count(*) as 'order_count'
+     from orders
+     group by goodsId) t
+     order by order_count desc
+     limit 10
+  </select>
+
   <update id="updateByPrimaryKey" parameterType="com.model.order.Order" >
     update orders
     set userId = #{userId,jdbcType=INTEGER},

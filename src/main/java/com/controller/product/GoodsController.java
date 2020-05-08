@@ -37,8 +37,20 @@ public class GoodsController {
         return goodsService.list(form);
     }
 
-    @ApiOperation(value = "新品上架推荐",notes = "上架时间倒序前十的商品")
-    @GetMapping
+    @ApiOperation(value = "首页商品推荐",notes = "订单金额前三的商品，仅交易成功的订单")
+    @GetMapping("/hotProduct")
+    public Result hotProduct(){
+        return goodsService.hotProduct();
+    }
+
+    @ApiOperation(value = "首页商品推荐",notes = "订单量前十的商品，包含所以交易类型的订单")
+    @GetMapping("/hotOrderProduct")
+    public Result hotOrderProduct(){
+        return goodsService.hotOrderProduct();
+    }
+
+    @ApiOperation(value = "首页新品上架推荐",notes = "上架时间倒序前十的商品")
+    @GetMapping("/newProduct")
     public Result newProduct(){
         return goodsService.newProduct();
     }
