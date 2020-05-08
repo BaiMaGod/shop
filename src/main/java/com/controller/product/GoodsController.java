@@ -23,14 +23,14 @@ public class GoodsController {
     @Autowired
     GoodsService goodsService;
 
-    @ApiOperation(value = "根据id查询景点详情信息",notes = "根据id查询 景点 详情信息")
+    @ApiOperation(value = "根据id查询商品详情信息",notes = "根据id查询 商品 详情信息")
     @GetMapping("/findById")
     public Result findById(@Valid GoodsForm.findByIdForm form){
 
         return goodsService.findById(form);
     }
 
-    @ApiOperation(value = "查询景点列表",notes = "查询满足条件的 景点 列表（商品名模糊查询 商品分类精准查询）")
+    @ApiOperation(value = "查询商品列表",notes = "查询满足条件的 商品 列表（商品名模糊查询 商品分类精准查询）")
     @GetMapping("/list")
     public Result list(@Valid GoodsForm.listForm form){
 
