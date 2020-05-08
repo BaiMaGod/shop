@@ -14,7 +14,5 @@ public interface OrderService {
 
     Result add(OrderForm.addForm form, HttpServletResponse httpResponse) throws IOException;
 
-    Result stat(OrderForm.statForm form);
-
     void updateState(AlipayForm form);
 }

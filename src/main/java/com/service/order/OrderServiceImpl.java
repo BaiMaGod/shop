@@ -12,7 +12,7 @@ import com.form.order.OrderForm;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mapper.order.OrderMapper;
-import com.mapper.order.OrderStatMapper;
+import com.mapper.order.OrderMapperExt;
 import com.mapper.product.GoodsImgMapper;
 import com.mapper.product.GoodsMapper;
 import com.mapper.product.ScenicSpotImgMapper;
@@ -25,9 +25,9 @@ import com.result.Result;
 import com.result.ResultStatus;
 import com.utils.CommonUtil;
 import com.utils.UserUtil;
-import com.vo.OrderStatVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -43,6 +43,7 @@ import java.util.Random;
  * 订单 操作 业务逻辑层
  */
 @Service
+@Transactional
 public class OrderServiceImpl implements OrderService{
     @Resource
     OrderMapper orderMapper;
@@ -51,7 +52,7 @@ public class OrderServiceImpl implements OrderService{
     @Resource
     ScenicSpotImgMapper scenicSpotImgMapper;
     @Resource
-    OrderStatMapper orderStatMapper;
+    OrderMapperExt orderMapperExt;
 
     @Resource
     GoodsMapper goodsMapper;
@@ -159,6 +160,8 @@ public class OrderServiceImpl implements OrderService{
         //使用支付宝支付
         alipay(order,httpResponse);
 
+        //修改库存
+        orderMapperExt.reduceStock(form);
         //插入数据库
         orderMapper.insertSelective(order);
 
@@ -180,20 +183,7 @@ public class OrderServiceImpl implements OrderService{
         return result;
     }
 
-    /**
-     * 订单统计
-     * @param form
-     * @return
-     */
-    @Override
-    public Result stat(OrderForm.statForm form) {
-        OrderStatVo orderStatVo = orderStatMapper.stat(form);
-        if(orderStatVo==null){
-            orderStatVo = new OrderStatVo();
-        }
 
-        return Result.success(orderStatVo);
-    }
 
     /**
      * 修改订单状态
