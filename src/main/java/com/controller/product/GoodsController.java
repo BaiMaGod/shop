@@ -37,7 +37,7 @@ public class GoodsController {
         return goodsService.list(form);
     }
 
-    @ApiOperation(value = "首页商品推荐",notes = "订单金额前三的商品，仅交易成功的订单")
+    @ApiOperation(value = "轮播商品推荐",notes = "订单金额前三的商品，仅交易成功的订单")
     @GetMapping("/hotProduct")
     public Result hotProduct(){
         return goodsService.hotProduct();
