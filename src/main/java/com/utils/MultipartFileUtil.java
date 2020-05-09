@@ -19,8 +19,8 @@ public class MultipartFileUtil {
      */
     public static String uploadFilePath = ContextLoader.getCurrentWebApplicationContext().getServletContext().getRealPath("/WEB-INF/");
 
-    public static String urlPrefix = "http://120.24.186.190:8080/travel/";
-//    public static String urlPrefix = "http://localhost:8080/travel/";
+    public static String urlPrefix = "http://120.24.186.190:8080/shop/";
+//    public static String urlPrefix = "http://localhost:8080/shop/";
 
 
 
