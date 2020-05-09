@@ -251,7 +251,7 @@
       from (
         select goodsId,sum(money) as 'total'
         from orders
-        where state='交易成功'
+        where state='订单完成'
         group by goodsId
       ) t
       order by total desc
