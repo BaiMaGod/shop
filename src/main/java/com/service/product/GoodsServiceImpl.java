@@ -169,6 +169,10 @@ public class GoodsServiceImpl implements GoodsService{
     public Result update(GoodsForm.updateForm form) {
         Goods goods = new Goods();
 
+        if(form.getStock()<=0){
+            return Result.fail(ResultStatus.ERROR_Parameter_Stock);
+        }
+
         //入参转实体对象
         BeanUtils.copyProperties(form,goods);
 
