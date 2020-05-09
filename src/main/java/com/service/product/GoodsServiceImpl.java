@@ -137,7 +137,7 @@ public class GoodsServiceImpl implements GoodsService{
         //设置创建信息
         String id = CommonUtil.getLongId();
         goods.setGoodsId(id);
-        goods.setUpdateTime(new Date());
+        goods.setCreateTime(new Date());
 
         //保存图片
         for (String imgUrl : form.getImgUrls()) {
