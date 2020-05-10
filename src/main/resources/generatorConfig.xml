@@ -33,7 +33,7 @@
         </javaTypeResolver>
 
         <!--生成Model类存放位置-->
-        <javaModelGenerator targetPackage="com.model.order" targetProject="./src/main/java">
+        <javaModelGenerator targetPackage="com.model.product" targetProject="./src/main/java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
@@ -44,19 +44,19 @@
         </sqlMapGenerator>
 
         <!--生成Dao类存放位置-->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.mapper.order" targetProject="./src/main/java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.mapper.product" targetProject="./src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
         <!--生成对应表及类名-->
-        <table tableName="orders" domainObjectName="Order"
+        <table tableName="cart" domainObjectName="Cart"
                enableCountByExample="true"  enableUpdateByExample="true"
                enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
             <!--默认是FALSE的，表示针对字段的下划线转换为驼峰写法，而为TRUE，表示原样输出数据库字段中的值-->
             <property name="useActualColumnNames" value="true"/>
 
-
-            <columnOverride column="goodsInfo" jdbcType="VARCHAR" />
+<!--
+            <columnOverride column="goodsInfo" jdbcType="VARCHAR" />-->
         </table>
 
 
