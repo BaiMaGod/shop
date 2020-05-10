@@ -30,5 +30,5 @@ public class AlipayConfig {
 
 
 //    public static String RETURN_PAGE = "http://localhost:8080/shop/static/index.html#/order";
-    public static String RETURN_PAGE = "http://120.24.186.190:8080/shop/static/index.html#/order";
+    public static String RETURN_PAGE = "http://120.24.186.190:8080/shop/view/index.html#/order";
 }
