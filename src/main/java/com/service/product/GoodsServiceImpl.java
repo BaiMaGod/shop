@@ -235,14 +235,13 @@ public class GoodsServiceImpl implements GoodsService{
 //        得到前三的商品id
         List<String> GoodsIds = orderMapperExt.selectGoodsIdsByCountTop();
         for(String goodsId:GoodsIds){
-
             Goods goods = goodsMapper.selectByPrimaryKey(goodsId);
-            GoodsImgExample imgExample = new GoodsImgExample();
-            imgExample.createCriteria().andGoodsIdEqualTo(goodsId);
-            List<GoodsImg> goodsImgs = goodsImgMapper.selectByExample(imgExample);
-            goods.setImgUrls( convertImg(goodsImgs) );
+                GoodsImgExample imgExample = new GoodsImgExample();
+                imgExample.createCriteria().andGoodsIdEqualTo(goodsId);
+                List<GoodsImg> goodsImgs = goodsImgMapper.selectByExample(imgExample);
+                goods.setImgUrls(convertImg(goodsImgs));
+                goodsList.add(goods);
 
-            goodsList.add(goods);
         }
 
         return Result.success(goodsList);
@@ -258,12 +257,14 @@ public class GoodsServiceImpl implements GoodsService{
         for(String goodsId:GoodsIds){
 
             Goods goods = goodsMapper.selectByPrimaryKey(goodsId);
-            GoodsImgExample imgExample = new GoodsImgExample();
-            imgExample.createCriteria().andGoodsIdEqualTo(goodsId);
-            List<GoodsImg> goodsImgs = goodsImgMapper.selectByExample(imgExample);
-            goods.setImgUrls( convertImg(goodsImgs) );
 
-            goodsList.add(goods);
+                GoodsImgExample imgExample = new GoodsImgExample();
+                imgExample.createCriteria().andGoodsIdEqualTo(goodsId);
+                List<GoodsImg> goodsImgs = goodsImgMapper.selectByExample(imgExample);
+                goods.setImgUrls(convertImg(goodsImgs));
+
+                goodsList.add(goods);
+
         }
         return Result.success(goodsList);
     }
