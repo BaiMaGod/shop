@@ -20,6 +20,8 @@ public class Order {
 
     private BigDecimal money;//订单金额，单位：元
 
+    private String address;//收货地址
+
     private Date createTime;//创建时间
 
     private String state;//订单状态
@@ -72,6 +74,14 @@ public class Order {
 
     public void setMoney(BigDecimal money) {
         this.money = money;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address == null ? null : address.trim();
     }
 
     public Date getCreateTime() {

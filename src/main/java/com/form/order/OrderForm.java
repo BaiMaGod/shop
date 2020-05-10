@@ -36,8 +36,9 @@ public class OrderForm {
 		@NotNull(message = "购买数量 必选大于0")
 		@Min(value = 0,message = "购买数量 必选大于0")
 		private Integer number;
-
-
+		@ApiModelProperty(value = "收货地址",required = true)
+		@NotBlank(message = "收货地址 不能为空")
+		private String address;
     }
 
 	@Data

@@ -1,11 +1,17 @@
 package com.mapper.order;
 
 import com.form.order.OrderForm;
-import com.vo.OrderStatVo;
+
+import java.util.List;
 
 public interface OrderMapperExt {
 
 
     void reduceStock(OrderForm.addForm form);
+
+    List<String> selectGoodsIdsByCountTop();
+
+    List<String> selectByCount();
+
 
 }

@@ -3,7 +3,7 @@ package com.service.product;
 import com.form.product.GoodsForm;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.mapper.order.OrderMapper;
+import com.mapper.order.OrderMapperExt;
 import com.mapper.product.GoodsImgMapper;
 import com.mapper.product.GoodsMapper;
 import com.model.product.*;
@@ -31,7 +31,7 @@ public class GoodsServiceImpl implements GoodsService{
     @Resource
     GoodsImgMapper goodsImgMapper;
     @Resource
-    OrderMapper orderMapper;
+    OrderMapperExt orderMapperExt;
 
     /**
      * 根据id查询 商品 详情信息
@@ -169,7 +169,8 @@ public class GoodsServiceImpl implements GoodsService{
     public Result update(GoodsForm.updateForm form) {
         Goods goods = new Goods();
 
-        if(form.getStock()<=0){
+
+        if(form.getStock()!=null&&form.getStock()<=0){
             return Result.fail(ResultStatus.ERROR_Parameter_Stock);
         }
 
@@ -232,7 +233,7 @@ public class GoodsServiceImpl implements GoodsService{
         ArrayList<Goods> goodsList = new ArrayList<>();
 
 //        得到前三的商品id
-        List<String> GoodsIds = orderMapper.selectGoodsIdsByCountTop();
+        List<String> GoodsIds = orderMapperExt.selectGoodsIdsByCountTop();
         for(String goodsId:GoodsIds){
 
             Goods goods = goodsMapper.selectByPrimaryKey(goodsId);
@@ -253,7 +254,7 @@ public class GoodsServiceImpl implements GoodsService{
         ArrayList<Goods> goodsList = new ArrayList<>();
 
 //        得到订单量前十的商品id
-        List<String> GoodsIds = orderMapper.selectByCount();
+        List<String> GoodsIds = orderMapperExt.selectByCount();
         for(String goodsId:GoodsIds){
 
             Goods goods = goodsMapper.selectByPrimaryKey(goodsId);

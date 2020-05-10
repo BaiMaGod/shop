@@ -15,8 +15,6 @@ import com.mapper.order.OrderMapper;
 import com.mapper.order.OrderMapperExt;
 import com.mapper.product.GoodsImgMapper;
 import com.mapper.product.GoodsMapper;
-import com.mapper.product.ScenicSpotImgMapper;
-import com.mapper.product.ScenicSpotMapper;
 import com.model.order.Order;
 import com.model.order.OrderExample;
 import com.model.product.*;
@@ -47,10 +45,6 @@ import java.util.Random;
 public class OrderServiceImpl implements OrderService{
     @Resource
     OrderMapper orderMapper;
-    @Resource
-    ScenicSpotMapper scenicSpotMapper;
-    @Resource
-    ScenicSpotImgMapper scenicSpotImgMapper;
     @Resource
     OrderMapperExt orderMapperExt;
 

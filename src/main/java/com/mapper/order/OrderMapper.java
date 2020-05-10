@@ -3,7 +3,6 @@ package com.mapper.order;
 import com.model.order.Order;
 import com.model.order.OrderExample;
 import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
 
 public interface OrderMapper {
@@ -28,8 +27,4 @@ public interface OrderMapper {
     int updateByPrimaryKeySelective(Order record);
 
     int updateByPrimaryKey(Order record);
-
-    List<String> selectGoodsIdsByCountTop();
-
-    List<String> selectByCount();
 }
