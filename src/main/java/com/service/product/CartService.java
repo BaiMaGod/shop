@@ -9,5 +9,8 @@ public interface CartService {
 
     Result add(CartForm.addForm form);
 
+    //删除指定用户存在购物车中的指定商品
+    void deleteGoods(String goodsId, Integer userId);
+
     Result delete(CartForm.deleteForm form);
 }

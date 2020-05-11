@@ -99,6 +99,7 @@ public class CartServiceImpl implements CartService{
     }
 
     //删除指定用户存在购物车中的指定商品
+    @Override
     public void deleteGoods(String goodsId, Integer userId) {
         //sql构造器
         CartExample example = new CartExample();

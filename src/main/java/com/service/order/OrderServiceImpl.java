@@ -21,6 +21,7 @@ import com.model.product.*;
 import com.result.Page;
 import com.result.Result;
 import com.result.ResultStatus;
+import com.service.product.CartService;
 import com.service.product.CartServiceImpl;
 import com.utils.CommonUtil;
 import com.utils.UserUtil;
@@ -56,7 +57,7 @@ public class OrderServiceImpl implements OrderService{
     GoodsImgMapper goodsImgMapper;
 
     @Autowired
-    CartServiceImpl cartService;
+    CartService cartService;
 
     /**
      * 根据id查询 订单 详情信息
