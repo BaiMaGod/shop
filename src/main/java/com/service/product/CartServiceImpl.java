@@ -76,6 +76,7 @@ public class CartServiceImpl implements CartService{
      * @return
      */
     @Override
+    @Transactional
     public Result add(CartForm.addForm form) {
         Cart cart = new Cart();
 
@@ -84,6 +85,10 @@ public class CartServiceImpl implements CartService{
         //设置用户id
         cart.setUserId(UserUtil.getUserInfo().getUserId());
 
+
+        //删除以前加入过购物车的同一个商品
+        deleteGoods(cart.getGoodsId(),cart.getUserId());
+
         //插入数据库
         int num = cartMapper.insertSelective(cart);
         if(num>0){
@@ -91,6 +96,19 @@ public class CartServiceImpl implements CartService{
         }
 
         return Result.fail(ResultStatus.ERROR_Add);
+    }
+
+    //删除指定用户存在购物车中的指定商品
+    public void deleteGoods(String goodsId, Integer userId) {
+        //sql构造器
+        CartExample example = new CartExample();
+        CartExample.Criteria criteria = example.createCriteria();
+
+        //构造where条件
+        criteria.andGoodsIdEqualTo(goodsId).andUserIdEqualTo(userId);
+
+        //删除数据库
+        cartMapper.deleteByExample(example);
     }
 
 

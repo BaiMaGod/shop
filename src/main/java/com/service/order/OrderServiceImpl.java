@@ -21,9 +21,11 @@ import com.model.product.*;
 import com.result.Page;
 import com.result.Result;
 import com.result.ResultStatus;
+import com.service.product.CartServiceImpl;
 import com.utils.CommonUtil;
 import com.utils.UserUtil;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -52,6 +54,9 @@ public class OrderServiceImpl implements OrderService{
     GoodsMapper goodsMapper;
     @Resource
     GoodsImgMapper goodsImgMapper;
+
+    @Autowired
+    CartServiceImpl cartService;
 
     /**
      * 根据id查询 订单 详情信息
@@ -159,6 +164,9 @@ public class OrderServiceImpl implements OrderService{
         //插入数据库
         orderMapper.insertSelective(order);
 
+        //将购物车中该商品删除
+        cartService.deleteGoods(order.getGoodsId(),order.getUserId());
+
         return null;
     }
 
@@ -192,6 +200,7 @@ public class OrderServiceImpl implements OrderService{
         //如果支付宝交易成功，则修改订单状态为订单完成
         if("TRADE_SUCCESS".equals(form.getTrade_status())){
             order.setState("订单完成");
+
         }else {
             order.setState("支付失败");
         }
